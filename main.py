@@ -1,6 +1,6 @@
-from fastapi import FastAPI         # Decorators @app.post, @app.get
-from pydantic import BaseModel      # Data Schema request and response validation
-from typing import List, Optional   # Type hints for lists and optional values
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import List, Optional
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -8,6 +8,28 @@ app = FastAPI(
     description="A demo microservice that exposes LeetCode problems as APIs",
     version="1.0.0",
 )
+
+class TwoSumRequest(BaseModel):
+    nums: List[int]
+    target: int
+
+class TwoSumResponse(BaseModel):
+    results: Optional[List[int]] = None
+    error: Optional[str] = None
+
+@app.post("/two_sum")
+def two_sum(req: TwoSumRequest):
+    '''
+        Used to find the index of two numbers in an array if they sum up to a target input
+    '''
+    nums_dict = {}
+    nums = req.nums
+    target = req.target
+    for i in range(len(nums)):
+        if nums_dict.get(target - nums[i]) == None:
+            nums_dict[nums[i]] = i
+        else:
+            return [nums_dict.get(target - nums[i]), i]
 
 
 # Define request schema: 
@@ -37,24 +59,23 @@ app = FastAPI(
 # Example when a solution exists:
 
 # {
-#   "result": [0, 1],
-#   "error": null
-# }
+#   "result":
+#   "error":
+# } 
 
 # class TwoSumResponse(BaseModel):
 #     result: 
-#     error: 
+#     error:
 
 
 # FastAPI route handler / endpoint function
 
 # @app.post("/two_sum", response_model=TwoSumResponse)
-
 # Whenever someone sends a POST request to the path /two_sum, run the function below
 
 # def two_sum(req: TwoSumRequest):
 #     """Solve the Two Sum problem as an API endpoint"""
 
-    # # Add your LeetCode Logic in here!
+    # Add your LeetCode Logic in here!
     
     # return {"error": "No two sum solution found"}
