@@ -24,12 +24,12 @@ def two_sum(req: TwoSumRequest):
     '''
     nums_dict = {}
     nums = req.nums
-    target = req.target
+    target2 = req.target
     for i in range(len(nums)):
-        if nums_dict.get(target - nums[i]) == None:
+        if nums_dict.get(target2 - nums[i]) == None:
             nums_dict[nums[i]] = i
         else:
-            return [nums_dict.get(target - nums[i]), i]
+            return [nums_dict.get(target2 - nums[i]), i]
 
 
 # Define request schema: 
